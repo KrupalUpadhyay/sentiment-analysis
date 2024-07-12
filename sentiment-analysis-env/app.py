@@ -1,17 +1,23 @@
 import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
+from real_time_predict import predict_sentiment
 
-st.title('Real-time Sentiment Analysis')
+st.title("Sentiment Analysis")
 
-# Load data
-df = pd.read_csv('sentiment_tweets.csv')
+st.subheader("Enter Tweet")
+tweet = st.text_input("Tweet")
 
-# Line chart
-st.line_chart(df['Sentiment'])
+if st.button("Predict Sentiment"):
+    sentiment = predict_sentiment(tweet)
+    st.write(f"Sentiment: {sentiment}")
 
-# Histogram
-fig, ax = plt.subplots()
-sns.histplot(df['Sentiment'], kde=True, ax=ax)
-st.pyplot(fig)
+st.subheader("Sample Predictions")
+sample_tweets = [
+    "I love using Python for data science!",
+    "This is the worst day of my life.",
+    "I'm so excited about the new project.",
+    "I feel terrible today."
+]
+
+for tweet in sample_tweets:
+    sentiment = predict_sentiment(tweet)
+    st.write(f"Tweet: {tweet}\nSentiment: {sentiment}\n")
